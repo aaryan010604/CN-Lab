@@ -1,64 +1,76 @@
+//  TCP FILE TRANSFER CODE FOR SERVER
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define PORT 10143
-#define BUFFER_SIZE 1024
+#define PORT 10035
+#define BUF_SIZE 1024
 
 int main() {
-    int sockfd;
-    struct sockaddr_in server;
-    char buffer[BUFFER_SIZE];
-    FILE *fp;
-    char filename[256] = "CN1156_prac4.txt";  // File to send
+    int server_fd, new_socket;
+    struct sockaddr_in address;
+    int addrlen = sizeof(address);
+    char buffer[BUF_SIZE];
 
-    // Create TCP socket
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) {
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         perror("Socket creation failed");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
-    server.sin_family = AF_INET;
-    server.sin_port = htons(PORT);
-    server.sin_addr.s_addr = inet_addr("127.0.0.1");
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons(PORT);
 
-    // Connect to server
-    if (connect(sockfd, (struct sockaddr*)&server, sizeof(server)) < 0) {
-        perror("Connection failed");
-        close(sockfd);
-        exit(1);
-    }
-    printf("✅ Connected to server.\n");
-
-    // Send filename first
-    send(sockfd, filename, strlen(filename), 0);
-    printf("📄 Sending file: %s\n", filename);
-
-    // Open file
-    fp = fopen(filename, "rb");
-    if (!fp) {
-        perror("File open failed");
-        close(sockfd);
-        exit(1);
+    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
+        perror("Bind failed");
+        close(server_fd);
+        exit(EXIT_FAILURE);
     }
 
-    // Send file contents
-    size_t bytes;
-    while ((bytes = fread(buffer, 1, BUFFER_SIZE, fp)) > 0) {
-        send(sockfd, buffer, bytes, 0);
-        buffer[bytes] = '\0';
-        printf("%s", buffer); // Live print
+    if (listen(server_fd, 3) < 0) {
+        perror("Listen failed");
+        close(server_fd);
+        exit(EXIT_FAILURE);
+    }
+    printf("TCP File Server listening on port %d...\n", PORT);
+
+    if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
+                             (socklen_t *)&addrlen)) < 0) {
+        perror("Accept failed");
+        close(server_fd);
+        exit(EXIT_FAILURE);
     }
 
-    // Send EOF signal
-    send(sockfd, "EOF", 3, 0);
+    memset(buffer, 0, BUF_SIZE);
+    int bytes_received = recv(new_socket, buffer, BUF_SIZE, 0);
+    if (bytes_received <= 0) {
+        perror("Filename receive failed");
+        close(new_socket);
+        close(server_fd);
+        exit(EXIT_FAILURE);
+    }
+    buffer[bytes_received] = '\0';
+    printf("Receiving file: %s\n", buffer);
 
-    printf("\n✅ File sent successfully.\n");
+    FILE *fp = fopen(buffer, "wb");
+    if (fp == NULL) {
+        perror("File creation failed");
+        close(new_socket);
+        close(server_fd);
+        exit(EXIT_FAILURE);
+    }
+
+    while ((bytes_received = recv(new_socket, buffer, BUF_SIZE, 0)) > 0) {
+        fwrite(buffer, 1, bytes_received, fp);
+    }
+
+    printf("File received successfully!\n");
 
     fclose(fp);
-    close(sockfd);
+    close(new_socket);
+    close(server_fd);
     return 0;
 }
