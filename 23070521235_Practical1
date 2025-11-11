@@ -1,0 +1,156 @@
+PRACTICAL NUMBER 1
+NETWORKING DEVICES 
+1. Router
+•	Function: Connects different networks together; routes data from one network to another.
+•	Key Use: Connects home/office networks to the internet.
+•	Smart Feature: Assigns IP addresses, provides firewall and security.
+2. Switch
+•	Function: Connects multiple devices (computers, printers, etc.) within a LAN.
+•	Key Use: Forwards data to the specific device it's meant for using MAC addresses.
+•	Smarter than: A hub (because it sends data only to the intended device).
+3. Hub (Legacy device, less used now)
+•	Function: Connects multiple Ethernet devices.
+•	Key Use: Broadcasts incoming data to all ports (not efficient).
+•	Less intelligent: Doesn’t filter data or know destination devices
+ 4. Modem (Modulator-Demodulator)
+•	Function: Converts digital data from a computer to analog for transmission (and vice versa).
+•	Key Use: Connects your home network to your ISP (Internet Service Provider).
+•	Types: DSL, Cable, Fiber modems
+5. Access Point (AP)
+•	Function: Extends a wired network by adding Wi-Fi capability.
+•	Key Use: Used in wireless LANs (WLANs).
+•	Often built-in: Many routers include built-in access points.
+
+6. Network Interface Card (NIC)
+•	Function: Allows a computer to connect to a network.
+•	Key Use: Every device on a network needs one.
+•	Types: Wired (Ethernet NIC), Wireless (Wi-Fi NIC)
+
+7. Bridge
+•	Function: Connects two LANs using the same protocol.
+•	Key Use: Divides network into segments to reduce traffic.
+•	Smarter than hub: Filters traffic based on MAC addresses🔹 8. Gateway
+•	Function: Acts as a translator between different network protocols.
+•	Key Use: Connects different systems (e.g., enterprise network to the internet).
+9. Repeater
+•	Function: Boosts or regenerates signals in a network.
+•	Key Use: Extends the range of a network by amplifying the signal.
+•	Common in: Large buildings or areas with weak signals.
+10. Firewall (Hardware or Software)
+•	Function: Controls incoming and outgoing network traffic based on security rules.
+•	Key Use: Protects against unauthorized access.
+11. Brouter (Bridge + Router)
+       A Brouter is a hybrid networking device that combines the functions of both a bridge and a router.
+TOPOLOGIES
+1. Bus Topology
+•	Structure: All devices are connected to a single central cable (the bus).
+•	Data Flow: Data travels in both directions along the cable.
+•	Advantages:
+o	Easy and inexpensive to implement.
+o	Requires less cable than star topology.
+•	Disadvantages:
+o	If the main cable fails, the entire network goes down.
+o	Difficult to troubleshoot.
+o	Limited cable length and number of nodes.
+
+ 2. Star Topology
+•	Structure: All devices are connected to a central device (hub/switch).
+•	Data Flow: Devices communicate through the central device.
+•	Advantages:
+o	Easy to install and manage.
+o	Failure of one node doesn’t affect the rest.
+•	Disadvantages:
+o	Central device is a single point of failure.
+o	Uses more cable than bus topology. 
+
+3. Ring Topology
+•	Structure: Each device is connected to two others, forming a circular path.
+•	Data Flow: Data travels in one direction (or both in a dual ring).
+•	Advantages:
+o	Data flows in an orderly manner.
+•	Disadvantages:
+o	A failure in any cable/device breaks the loop.
+o	Troubleshooting is hard.
+o	Adding/removing devices disrupts the network.  
+
+4. Mesh Topology
+•	Structure: Every device is connected to every other device.
+•	Types:
+o	Full Mesh: All nodes are interconnected.
+o	Partial Mesh: Some nodes are interconnected.
+•	Advantages:
+o	Very reliable and redundant.
+o	Failure of one link doesn’t affect communication.
+•	Disadvantages:
+o	Expensive and complex.
+o	Requires lots of cabling and ports.
+
+ 5. Tree Topology (Hierarchical)
+•	Structure: A combination of star topologies connected to a central bus or main cable.
+•	Advantages:
+o	Scalable and structured.
+o	Easy to expand.
+•	Disadvantages:
+o	Failure in the backbone affects the entire network.
+o	More cabling.
+
+ 6. Hybrid Topology
+•	Structure: Combination of two or more different topologies.
+•	Example: Star-Bus, Star-Ring.
+•	Advantages:
+o	Flexible and scalable.
+•	Disadvantages:
+o	Complex design and maintenance.
+o	Costly.
+
+BASIC NETWORK TROUBLESHOOTING COMMANDS
+1. ping
+•	Purpose: Tests connectivity to another device or website.
+•	Usage:
+•	ping google.com
+•	ping 192.168.1.1
+•	What it shows: Whether the target is reachable, response time, and packet loss.
+________________________________________
+2. ipconfig (Windows only)
+•	Purpose: Displays IP address, subnet mask, default gateway, and more.
+•	Usage:
+•	ipconfig
+•	ipconfig /all
+•	ipconfig /release
+•	ipconfig /renew
+•	ipconfig /flushdns
+•	Key Uses:
+o	/release and /renew help refresh IP address.
+o	/flushdns clears the DNS cache.
+3. ifconfig (Linux/macOS; deprecated in Linux but still used)
+•	Purpose: Shows and configures network interfaces.
+•	Usage:
+•	ifconfig
+Use ip a instead on modern Linux systems.
+4. tracert (Windows) / traceroute (Linux/macOS)
+•	Purpose: Shows the path (hops) data takes to reach a destination.
+•	Usage:
+•	tracert google.com      # Windows
+•	traceroute google.com   # Linux/macOS
+5. nslookup
+•	Purpose: Queries DNS to find the IP address of a domain name.
+•	Usage:
+•	nslookup google.com
+
+6. route
+•	Purpose: Displays and manipulates the routing table.
+•	Usage:
+•	route print       # Windows
+•	route -n          # Linux
+
+
+
+
+
+
+
+
+
+
+
+
